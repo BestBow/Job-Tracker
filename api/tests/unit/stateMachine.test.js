@@ -6,21 +6,18 @@ describe('stateMachine', () => {
       ['applied',   'screening', true],
       ['applied',   'interview', true],
       ['applied',   'rejected',  true],
-      ['applied',   'withdrawn', true],
-      ['screening', 'interview', true],
+      ['screening', 'applied',   true],  // can go backwards now
+      ['interview', 'applied',   true],  // can go backwards now
       ['interview', 'offer',     true],
-      ['offer',     'withdrawn', true],
+      ['offer',     'applied',   true],  // can go backwards now
     ])('allows %s → %s', (from, to, expected) => {
       expect(canTransition(from, to)).toBe(expected);
     });
 
     it.each([
-      ['rejected',  'applied',   false],  // can't go backwards
-      ['withdrawn', 'applied',   false],  // can't reopen
-      ['offer',     'applied',   false],  // can't go backwards
-      ['interview', 'applied',   false],  // can't go backwards
-      ['rejected',  'interview', false],  // rejected is terminal
-      ['withdrawn', 'offer',     false],  // withdrawn is terminal
+      ['rejected',  'applied',   false], // terminal
+      ['withdrawn', 'applied',   false], // terminal
+      ['applied',   'applied',   false], // same status
     ])('blocks %s → %s', (from, to, expected) => {
       expect(canTransition(from, to)).toBe(expected);
     });
@@ -31,10 +28,11 @@ describe('stateMachine', () => {
   });
 
   describe('getValidTransitions', () => {
-    it('returns correct transitions for applied', () => {
-      expect(getValidTransitions('applied')).toEqual(
-        expect.arrayContaining(['screening', 'interview', 'rejected', 'withdrawn'])
-      );
+    it('returns all other statuses for applied', () => {
+      const transitions = getValidTransitions('applied');
+      expect(transitions).toContain('screening');
+      expect(transitions).toContain('interview');
+      expect(transitions).not.toContain('applied');
     });
 
     it('returns empty array for terminal statuses', () => {

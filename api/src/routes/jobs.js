@@ -6,14 +6,16 @@ const {
 const { validateJob, validateStatus, validateId } = require('../middleware/validate');
 
 const router = express.Router();
+const pool = require('../db/pool');
 
 router.get('/', async (req, res, next) => {
   try {
-    const { status, is_remote, search } = req.query;
+    const { status, is_remote, search, active } = req.query;
     const jobs = await listJobs({
       status:    status    ?? null,
       is_remote: is_remote !== undefined ? is_remote === 'true' : undefined,
       search:    search    ?? null,
+      active:    active === 'false' ? false : true,
     });
     res.json({ jobs });
   } catch (err) {
@@ -63,6 +65,20 @@ router.delete('/:id', ...validateId, async (req, res, next) => {
     const deleted = await deleteJob(req.params.id);
     if (!deleted) return res.status(404).json({ error: 'Job not found' });
     res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+});
+
+// POST /api/jobs/:id/restore — bring back a soft-deleted job
+router.post('/:id/restore', ...validateId, async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      'UPDATE jobs SET is_active = TRUE WHERE id = $1 RETURNING *',
+      [req.params.id]
+    );
+    if (rows.length === 0) return res.status(404).json({ error: 'Job not found' });
+    res.json(rows[0]);
   } catch (err) {
     next(err);
   }

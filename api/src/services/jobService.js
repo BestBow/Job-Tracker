@@ -11,8 +11,8 @@ async function createJob({ company, role, job_url, salary_min, salary_max, locat
   return rows[0];
 }
 
-async function listJobs({ status, is_remote, search } = {}) {
-  const conditions = ['j.is_active = TRUE'];
+async function listJobs({ status, is_remote, search, active = true } = {}) {
+  const conditions = [`j.is_active = ${active}`];
   const values = [];
 
   if (status) {
