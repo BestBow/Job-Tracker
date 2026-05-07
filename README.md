@@ -45,48 +45,53 @@ job-tracker/
 ├── api/
 │   ├── src/
 │   │   ├── db/
-│   │   │   ├── migrations.sql      # Schema — jobs, notes, contacts, tags
-│   │   │   └── pool.js             # pg connection pool
+│   │   │   ├── migrations.sql          # Schema — jobs, notes, contacts, tags
+│   │   │   └── pool.js                 # PostgreSQL connection pool
 │   │   ├── middleware/
-│   │   │   ├── validate.js         # express-validator rules
-│   │   │   └── errorHandler.js     # centralized error handling
+│   │   │   ├── validate.js             # express-validator rules
+│   │   │   └── errorHandler.js         # Centralized error handling
 │   │   ├── routes/
-│   │   │   ├── jobs.js             # CRUD + status transitions
-│   │   │   ├── notes.js            # Notes per job
-│   │   │   ├── contacts.js         # Contacts per job
-│   │   │   └── tags.js             # Tags + many-to-many
+│   │   │   ├── jobs.js                 # CRUD + status transitions
+│   │   │   ├── notes.js                # Notes per job
+│   │   │   ├── contacts.js             # Contacts per job
+│   │   │   └── tags.js                 # Tags + many-to-many relations
 │   │   ├── services/
-│   │   │   ├── jobService.js       # Business logic
+│   │   │   ├── jobService.js           # Business logic
 │   │   │   ├── noteService.js
 │   │   │   └── contactService.js
 │   │   ├── utils/
-│   │   │   └── stateMachine.js     # Valid status transitions
-│   │   ├── app.js                  # Express app (no listen — testable)
-│   │   └── server.js               # Entrypoint
+│   │   │   └── stateMachine.js         # Valid status transitions
+│   │   ├── app.js                      # Express app (testable)
+│   │   └── server.js                   # Entrypoint
 │   └── tests/
 │       ├── unit/
-│       │   ├── stateMachine.test.js   # Transition logic
-│       │   ├── jobService.test.js     # Service layer, DB mocked
+│       │   ├── stateMachine.test.js    # Transition logic tests
+│       │   ├── jobService.test.js      # Service layer tests (DB mocked)
 │       │   └── analyticsService.test.js
 │       └── integration/
-│           ├── jobs.test.js           # Full request → DB → response
-│           └── notes.test.js          # Notes, contacts, tags
+│           ├── jobs.test.js            # Full request → DB → response
+│           └── notes.test.js           # Notes, contacts, tags tests
+│
 ├── client/
 │   └── src/
-│       ├── api/jobs.js             # Axios API client
-│       ├── hooks/useJobs.js        # Data fetching + optimistic updates
+│       ├── api/
+│       │   └── jobs.js                 # Axios API client
+│       ├── hooks/
+│       │   └── useJobs.js              # Data fetching + optimistic updates
 │       └── components/
-│           ├── Column.jsx          # Kanban column with drop zone
-│           ├── JobCard.jsx         # Draggable job card
-│           ├── StatsBar.jsx        # Pipeline stats
-│           ├── AddJobModal.jsx     # Add new application
-│           ├── JobDetailPanel.jsx  # Notes + contacts slide-out
-│           └── UndoToast.jsx       # 5-second undo on delete
+│           ├── Column.jsx              # Kanban column with drop zone
+│           ├── JobCard.jsx             # Draggable job card
+│           ├── StatsBar.jsx            # Pipeline statistics
+│           ├── AddJobModal.jsx         # Add new application modal
+│           ├── JobDetailPanel.jsx      # Notes + contacts slide-out panel
+│           └── UndoToast.jsx           # 5-second undo on delete
+│
 ├── scripts/
-│   └── seed.sql                   # Local dev seed data
+│   └── seed.sql                        # Local development seed data
+│
 └── .github/
-└── workflows/
-└── ci.yml                 # Run all tests on every push
+    └── workflows/
+        └── ci.yml                      # Run all tests on every push
 
 ---
 
