@@ -41,6 +41,8 @@ Track every application, move cards through your pipeline, add interview notes, 
 ---
 
 ## Project Structure
+
+```text
 job-tracker/
 ├── api/
 │   ├── src/
@@ -65,33 +67,34 @@ job-tracker/
 │   │   └── server.js                   # Entrypoint
 │   └── tests/
 │       ├── unit/
-│       │   ├── stateMachine.test.js    # Transition logic tests
-│       │   ├── jobService.test.js      # Service layer tests (DB mocked)
+│       │   ├── stateMachine.test.js
+│       │   ├── jobService.test.js
 │       │   └── analyticsService.test.js
 │       └── integration/
-│           ├── jobs.test.js            # Full request → DB → response
-│           └── notes.test.js           # Notes, contacts, tags tests
+│           ├── jobs.test.js
+│           └── notes.test.js
 │
 ├── client/
 │   └── src/
 │       ├── api/
-│       │   └── jobs.js                 # Axios API client
+│       │   └── jobs.js
 │       ├── hooks/
-│       │   └── useJobs.js              # Data fetching + optimistic updates
+│       │   └── useJobs.js
 │       └── components/
-│           ├── Column.jsx              # Kanban column with drop zone
-│           ├── JobCard.jsx             # Draggable job card
-│           ├── StatsBar.jsx            # Pipeline statistics
-│           ├── AddJobModal.jsx         # Add new application modal
-│           ├── JobDetailPanel.jsx      # Notes + contacts slide-out panel
-│           └── UndoToast.jsx           # 5-second undo on delete
+│           ├── Column.jsx
+│           ├── JobCard.jsx
+│           ├── StatsBar.jsx
+│           ├── AddJobModal.jsx
+│           ├── JobDetailPanel.jsx
+│           └── UndoToast.jsx
 │
 ├── scripts/
-│   └── seed.sql                        # Local development seed data
+│   └── seed.sql
 │
 └── .github/
     └── workflows/
-        └── ci.yml                      # Run all tests on every push
+        └── ci.yml
+```
 
 ---
 
